@@ -93,12 +93,19 @@ main:
 
 .L_LOOP_END: # 循环结束标签
     # --- return 0; ---
-    li a0, 0          # 设置返回值为 0 (返回值通过 a0 寄存器传递)
+    #li a0, 0          # 设置返回值为 0 (返回值通过 a0 寄存器传递)
 
     # --- Epilogue: 销毁栈帧 ---
-    ld ra, 24(sp)     # ld = Load Doubleword, 恢复之前保存的返回地址
-    ld s0, 16(sp)     # 恢复帧指针
-    addi sp, sp, 32   # 释放栈空间
+    #ld ra, 24(sp)     # ld = Load Doubleword, 恢复之前保存的返回地址
+    #ld s0, 16(sp)     # 恢复帧指针
+    #addi sp, sp, 32   # 释放栈空间
 
     # 返回
-    jr ra             # jr = Jump Register, 跳转到 ra 中的地址
+    #jr ra             # jr = Jump Register, 跳转到 ra 中的地址
+
+    # --- 通过exit系统调用结束程序，而非从main返回 ---
+    # RISC-V 64位Linux的exit系统调用号是 93
+    # 返回值放在 a0 寄存器中
+    li a0, 0      # a0 = 0 (程序正常退出的返回值)
+    li a7, 93     # a7 = 93 (exit系统调用号)
+    ecall         # 执行系统调用，终止程序
