@@ -1,6 +1,6 @@
 	.text
 	.attribute	4, 16
-	.attribute	5, "rv64i2p1_f2p2_d2p2_zicsr2p0"
+	.attribute	5, "rv64i2p1"
 	.file	"main.c"
 	.option	push
 	.option	arch, +a, +c, +m
@@ -25,15 +25,13 @@ main:                                   # @main
 	li	a0, 1
 	sw	a0, -36(s0)
 	sw	a0, -40(s0)
-.Lpcrel_hi0:
-	auipc	a0, %pcrel_hi(.L.str)
-	addi	a0, a0, %pcrel_lo(.Lpcrel_hi0)
+	lui	a0, %hi(.L.str)
+	addi	a0, a0, %lo(.L.str)
 	addi	a1, s0, -48
 	call	__isoc99_scanf
 	lw	a1, -32(s0)
-.Lpcrel_hi1:
-	auipc	a0, %pcrel_hi(.L.str.1)
-	addi	s1, a0, %pcrel_lo(.Lpcrel_hi1)
+	lui	a0, %hi(.L.str.1)
+	addi	s1, a0, %lo(.L.str.1)
 	mv	a0, s1
 	call	printf
 	lw	a1, -36(s0)
@@ -53,9 +51,8 @@ main:                                   # @main
 	addw	a0, a0, a1
 	sw	a0, -36(s0)
 	lw	a1, -36(s0)
-.Lpcrel_hi2:
-	auipc	a0, %pcrel_hi(.L.str.1)
-	addi	a0, a0, %pcrel_lo(.Lpcrel_hi2)
+	lui	a0, %hi(.L.str.1)
+	addi	a0, a0, %lo(.L.str.1)
 	call	printf
 	lw	a0, -44(s0)
 	sw	a0, -32(s0)
